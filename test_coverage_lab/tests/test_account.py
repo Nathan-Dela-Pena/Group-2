@@ -93,83 +93,65 @@ Each test should include:
 - A meaningful **commit message** when submitting their PR.
 """
 
-# TODO 1: Test Default Values
-# - Ensure that new accounts have the correct default values (e.g., `disabled=False`).
-# - Check if an account has no assigned role, it defaults to "user".
+# Test Assignments
 
-# TODO 2: Test Updating Account Email
-# - Ensure an account’s email can be successfully updated.
-# - Verify that the updated email is stored in the database.
+# Student 1: Test account serialization
+# - Verify that the account object is correctly serialized to a dictionary.
+# - Ensure all expected fields are included in the output.
+# Target Method: to_dict()
 
-# TODO 3: Test Finding an Account by ID
-# - Create an account and retrieve it using its ID.
-# - Ensure the retrieved account matches the created one.
+# Student 2: Test invalid email input
+# - Ensure invalid email formats raise a validation error.
+# Target Method: validate_email()
+
+# Student 3: Test missing required fields
+# - Ensure account initialization fails when required fields are missing.
+# Target Method: Account() initialization
 
 # ===========================
-# Test: Invalid Email Handling
+# Test: Test Positive Deposit
 # Author: Reece Galgana
-# Date: 2026-02-10
-# Description: - Ensure invalid emails raise a DataValidationError.
-#              - Ensure accounts without an email cannot be created.       
+# Date: 2025-02-11
+# Description: Verify that depositing a positive amount correctly increases the balance.
 # ===========================
+def test_positive_deposit():
 
-def test_invalid_email_handling():
-
-    # Attempt to assign no email.
-    account = Account(role="user")
-    with pytest.raises(TypeError): # match() can't accept None type.
-        account.validate_email()
+    account = Account(name="Gorilla Sushi", email="gorillasushi@gmail.com", role="user", balance = 0)
     
-    # Attempt invalid email: No '@' symbol.
-    account = Account(role="user", email="not-an-email")
-    with pytest.raises(DataValidationError):
-        account.validate_email()
+    # Depositing small positive amount increases balance accordingly.
+    account.deposit(1)
+    assert account.balance == 1
+
+    # Depositing large positive amount increases balance accordingly.
+    account.deposit(2 ** 32)
+    assert account.balance == (2 ** 32) + 1
     
-    # Attempt invalid email: No '.' symbol after '@'.
-    account = Account(role="user", email="not-an-email@gmail")
-    with pytest.raises(DataValidationError):
-        account.validate_email()
-    
-    # Attempt invalid email: No text after '.'
-    account = Account(role="user", email="not-an-email@gmail.")
-    with pytest.raises(DataValidationError):
-        account.validate_email()
 
-    # Attempt invalid email: No text before after '@'.
-    account = Account(role="user", email="@gmail.com")
-    with pytest.raises(DataValidationError):
-        account.validate_email()
+# Student 5: Test deposit with zero/negative values
+# - Ensure zero or negative deposits are rejected.
+# Target Method: deposit()
 
-    # Attempt invalid email: Special characters.
-    account = Account(role="user", email="gorilla-sushi@gmail.com!")
-    with pytest.raises(DataValidationError):
-        account.validate_email()
+# Student 6: Test valid withdrawal
+# - Verify that withdrawing a valid amount correctly decreases the balance.
+# Target Method: withdraw()
 
-# TODO 5: Test Password Hashing
-# - Ensure that passwords are stored as **hashed values**.
-# - Verify that plaintext passwords are never stored in the database.
+# Student 7: Test withdrawal with insufficient funds
+# - Ensure withdrawal fails when balance is insufficient.
+# Target Method: withdraw()
 
-# TODO 6: Test Account Persistence
-# - Create an account, commit the session, and restart the session.
-# - Ensure the account still exists in the database.
+# Student 8: Test password hashing
+# - Ensure passwords are properly hashed.
+# - Verify that password verification works correctly.
+# Target Methods: set_password() / check_password()
 
-# TODO 7: Test Searching by Name
-# - Ensure accounts can be searched by their **name**.
-# - Verify that partial name searches return relevant accounts.
+# Student 9: Test account deactivation/reactivation
+# - Ensure accounts can be deactivated and reactivated correctly.
+# Target Methods: deactivate() / reactivate()
 
-# TODO 8: Test Bulk Insertion
-# - Create and insert multiple accounts at once.
-# - Verify that all accounts are successfully stored in the database.
+# Student 10: Test email uniqueness enforcement
+# - Ensure duplicate emails are not allowed.
+# Target Method: validate_unique_email()
 
-# TODO 9: Test Account Deactivation/Reactivate
-# - Ensure accounts can be deactivated.
-# - Verify that deactivated accounts cannot perform certain actions.
-# - Ensure reactivation correctly restores the account.
-
-# TODO 10: Test Email Uniqueness Enforcement
-# - Ensure that duplicate emails are not allowed.
-# - Verify that accounts must have a unique email in the database.
-
-# TODO 11: Test Role-Based Access
-# - Ensure users with different roles ('admin', 'user', 'guest') have appropriate permissions.
-# - Verify that role changes are correctly reflected in the database.
+# Student 11: Test deleting an account
+# - Verify that an account can be successfully deleted from the database.
+# Target Method: delete()
