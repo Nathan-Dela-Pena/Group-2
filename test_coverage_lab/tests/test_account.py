@@ -148,7 +148,7 @@ def test_account_serialization():
 def test_positive_deposit():
 
     account = Account(name="Gorilla Sushi", email="gorillasushi@gmail.com", role="user", balance = 0)
-    
+
     # Depositing small positive integer increases balance accordingly.
     account.deposit(1)
     assert account.balance == 1
@@ -173,9 +173,18 @@ def test_positive_deposit():
 # - Verify that withdrawing a valid amount correctly decreases the balance.
 # Target Method: withdraw()
 
-# Student 7: Test withdrawal with insufficient funds
-# - Ensure withdrawal fails when balance is insufficient.
-# Target Method: withdraw()
+# ===========================
+# Test: Test Withdrawl With Insufficient Funds
+# Author: Jonah Lewis
+# Date: 2025-02-15
+# Description: Verify that withdrawing an amount larger than the account balance raises an exception
+# ===========================
+def test_withdrawl_insufficient_funds():
+    """Test withdrawing from an account with insufficient funds"""
+
+    account = Account(balance=0)
+    with pytest.raises(DataValidationError):
+        account.withdraw(1)
 
 # Student 8: Test password hashing
 # - Ensure passwords are properly hashed.
