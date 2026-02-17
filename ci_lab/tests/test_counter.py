@@ -241,7 +241,9 @@ class TestCounterEndpoints:
 
         # GET should now fail because counter was deleted
         response = client.get('/counters/test-counter')
-        assert response.status_code == 404
+        
+        # assert response.status_code == 404
+        assert response.status_code == 200 # test failure
         assert response.get_json() == {"error": "Counter 'test-counter' not found"}
 
 
@@ -293,6 +295,3 @@ class TestCounterEndpoints:
         assert response.status_code == HTTPStatus.BAD_REQUEST
 
         # TODO: Add an assertion to verify the error message specifically says 'Invalid counter name'S
-    
-    def test_fail_example(client):
-        assert False  # Intentional failure for CI debugging
