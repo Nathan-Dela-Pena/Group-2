@@ -55,3 +55,12 @@ jobs:
             CI run completed with status: ${{ job.status }}
             - Tests and linting executed
             - Coverage report generated
+      # Notify PR of CI status
+      - name: Notify PR of CI Status
+        if: github.event_name == 'pull_request'
+        uses: mshick/add-pr-comment@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: "CI run completed with status: ${{ job.status }}"
+
