@@ -230,6 +230,22 @@ class TestCounterEndpoints:
 
         # TODO: Add an assertion to check the exact count value
 
+    
+    def test_reset_counter(self, client):
+        """Resetting counters removes all counters"""
+        # create a counter
+        client.post('/counters/test-counter')
+
+        # reset all counters
+        client.post('/counters/reset')
+
+        # GET should now fail because counter was deleted
+        response = client.get('/counters/test-counter')
+        assert response.status_code == 404
+        assert response.get_json() == {"error": "Counter 'test-counter' not found"}
+
+
+
     # ===========================
     # Test: Retrieve counters with values greater than a threshold
     # Author: Student 9
@@ -277,3 +293,6 @@ class TestCounterEndpoints:
         assert response.status_code == HTTPStatus.BAD_REQUEST
 
         # TODO: Add an assertion to verify the error message specifically says 'Invalid counter name'S
+    
+    def test_fail_example(client):
+        assert False  # Intentional failure for CI debugging
