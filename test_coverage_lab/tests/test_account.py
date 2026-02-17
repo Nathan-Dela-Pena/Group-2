@@ -141,7 +141,7 @@ def test_password_hashing(setup_account):
     # set a password
     account.set_password("Testing123!")
 
-    # esure the password is not stored as a string
+    # ensure the password is not stored as a string
     assert account.password_hash != "Testing123!"
     assert account.password_hash is not None
 
@@ -162,4 +162,4 @@ def test_password_hashing(setup_account):
 
 # Student 11: Test deleting an account
 # - Verify that an account can be successfully deleted from the database.
-# Target Method: delete()
+# Target Method: delete()``
