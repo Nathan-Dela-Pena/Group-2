@@ -36,3 +36,10 @@ jobs:
       # Student 8 (Nathan Dela Pena): test_get_total_number_of_counters
       - name: Confirm Student 8 Test Ran
         run: echo "Student 8: test_get_total_number_of_counters executed"
+
+      - name: Notify PR of CI Status
+        if: github.event_name == 'pull_request'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: "CI run completed with status: ${{ job.status }}"
+
