@@ -242,8 +242,7 @@ class TestCounterEndpoints:
         # GET should now fail because counter was deleted
         response = client.get('/counters/test-counter')
         
-        # assert response.status_code == 404
-        assert response.status_code == 200 # test failure
+        assert response.status_code == 404
         assert response.get_json() == {"error": "Counter 'test-counter' not found"}
 
 
