@@ -1,12 +1,66 @@
-# ides
-.vscode/
-.idea/
-
-# os
-.DS_Store
-Thumbs.db
-
-# env
+# ========================
+# Environments
+# ========================
+venv/
 .env
 *.env
 .env.local
+
+# ========================
+# Python
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+*.db
+.coverage
+.coverage.*
+.cache/
+pytest_cache/
+htmlcov/
+coverage.xml
+
+# ========================
+# Logs / Temp
+# ========================
+*.log
+*.tmp
+
+# ========================
+# Config / Secrets
+# ========================
+config.yaml
+secrets.json
+
+# ========================
+# OS Files
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ========================
+# IDEs
+# ========================
+.vscode/
+.idea/
+
+# ========================
+# Node (if used)
+# ========================
+node_modules/
+package-lock.json
+
+# ========================
+# Office temp files
+# ========================
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# ========================
+# Shell history
+# ========================
+.bash_history
+.powershell_history
