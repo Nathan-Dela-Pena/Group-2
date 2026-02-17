@@ -42,4 +42,6 @@ jobs:
         uses: mshick/add-pr-comment@v2
         with:
           message: "CI run completed with status: ${{ job.status }}"
+         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
