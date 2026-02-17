@@ -12,32 +12,49 @@ jobs:
         working-directory: ci_lab
 
     steps:
+      # Checkout the repo
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Set up Python
       - name: Set Up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.9"
 
+      # Install dependencies
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Run tests with coverage
       - name: Run Tests with Pytest
         run: pytest --cov=src --cov-report=term-missing
 
+      # Install Flake8 for linting
       - name: Install Flake8
         run: pip install flake8
 
+      # Run linting
       - name: Run Flake8 Linting
         run: flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
 
-      # Student 8 (Nathan Dela Pena): test_get_total_number_of_counters
+      # Confirm Student 8 test ran
       - name: Confirm Student 8 Test Ran
         run: echo "Student 8: test_get_total_number_of_counters executed"
 
+      # Post CI status comment on PR
+      - name: Notify PR of CI Status
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            CI run completed with status: ${{ job.status }}
+            - Tests and linting executed
+            - Coverage report generated
       # Notify PR of CI status
       - name: Notify PR of CI Status
         if: github.event_name == 'pull_request'
