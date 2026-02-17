@@ -1,4 +1,4 @@
-name: CI Workflow  # Name of the workflow
+name: CI Workflow
 
 on:
   push:
@@ -6,18 +6,19 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ci_lab  # Set the default working directory for all steps
+        working-directory: ci_lab
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
       - name: Set Up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"  # Ensure consistency in Python version
+          python-version: "3.9"
 
       - name: Install Dependencies
         run: |
@@ -36,3 +37,13 @@ jobs:
       # Student 8 (Nathan Dela Pena): test_get_total_number_of_counters
       - name: Confirm Student 8 Test Ran
         run: echo "Student 8: test_get_total_number_of_counters executed"
+
+      # Notify PR of CI status
+      - name: Notify PR of CI Status
+        if: github.event_name == 'pull_request'
+        uses: mshick/add-pr-comment@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: "CI run completed with status: ${{ job.status }}"
+
